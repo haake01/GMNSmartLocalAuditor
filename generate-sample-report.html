@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerar Relatórios PDF Modelo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        button {
+            padding: 20px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-platform {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .btn-platform:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        .btn-comparison {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .btn-comparison:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(245, 87, 108, 0.4);
+        }
+        .info {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border-left: 4px solid #667eea;
+        }
+        .info h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        .info ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .info li {
+            margin: 8px 0;
+            color: #555;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Gerador de Relatórios PDF Modelo</h1>
+
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">
+            Clique nos botões abaixo para gerar relatórios PDF de exemplo
+        </p>
+
+        <div class="button-group">
+            <button class="btn-platform" onclick="generatePlatformPDF()">
+                <span style="font-size: 24px;">🌐</span>
+                Gerar Relatório: Presença Multiplataforma
+            </button>
+
+            <button class="btn-comparison" onclick="generateComparisonPDF()">
+                <span style="font-size: 24px;">📊</span>
+                Gerar Relatório: Análise Comparativa Competitiva
+            </button>
+        </div>
+
+        <div id="success" class="success">
+            ✅ Relatório gerado com sucesso! O download deve iniciar automaticamente.
+        </div>
+
+        <div class="info">
+            <h3>ℹ️ Sobre os Relatórios</h3>
+            <p><strong>1. Relatório de Presença Multiplataforma:</strong></p>
+            <ul>
+                <li>Análise completa de presença em 6 plataformas</li>
+                <li>Score geral de presença digital</li>
+                <li>7 seções com análises descritivas detalhadas</li>
+                <li>Plano de ação imediato semana-a-semana</li>
+                <li>3-5 páginas com design profissional</li>
+            </ul>
+
+            <p><strong>2. Relatório de Análise Comparativa:</strong></p>
+            <ul>
+                <li>Comparação detalhada com líder de mercado</li>
+                <li>Gap competitivo por critério</li>
+                <li>9 seções com análises aprofundadas</li>
+                <li>Roadmap de implementação em 4 fases</li>
+                <li>5-7 páginas com benchmarking completo</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const { jsPDF } = window.jspdf;
+
+        function showSuccess() {
+            const successDiv = document.getElementById('success');
+            successDiv.style.display = 'block';
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function generatePlatformPDF() {
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const margin = 20;
+            const maxWidth = pageWidth - (margin * 2);
+            let yPos = margin;
+
+            // Header
+            doc.setFillColor(231, 76, 60);
+            doc.rect(0, 0, pageWidth, 50, 'F');
+
+            doc.setFontSize(20);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(255, 255, 255);
+            doc.text('ANÁLISE DE PRESENÇA MULTIPLATAFORMA', margin, 18);
+
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'normal');
+            doc.text('RESTAURANTE BELLA VISTA', margin, 30);
+
+            doc.setFontSize(10);
+            doc.text('Relatório gerado em: 09 de outubro de 2025', margin, 42);
+
+            yPos = 60;
+
+            // Score box
+            doc.setFillColor(245, 245, 245);
+            doc.rect(margin, yPos, maxWidth, 25, 'F');
+
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('PONTUAÇÃO GERAL DE PRESENÇA DIGITAL', margin + 3, yPos + 8);
+
+            doc.setFontSize(28);
+            doc.setTextColor(243, 156, 18);
+            doc.text('67/100', margin + 3, yPos + 20);
+
+            yPos += 35;
+
+            // Content sections
+            const sections = [
+                {
+                    title: 'RESUMO EXECUTIVO',
+                    content: 'A empresa Restaurante Bella Vista possui presença confirmada em 4 de 6 plataformas analisadas (67%), com 3 perfil(is) verificado(s). Com pontuação geral de 67/100, a empresa demonstra presença digital moderada, com oportunidades significativas de expansão em plataformas-chave que podem aumentar substancialmente a visibilidade e captura de clientes.'
+                },
+                {
+                    title: '1. ANÁLISE DO GOOGLE MEU NEGÓCIO',
+                    items: [
+                        'STATUS: Perfil ATIVO com pontuação de 85/100. Perfil completo e verificado com 243 avaliações (4.6⭐)',
+                        'VERIFICAÇÃO: Perfil verificado, garantindo autenticidade e maior destaque nos resultados de busca local (até 70% mais visibilidade)',
+                        'DESEMPENHO EXCELENTE: O perfil está bem otimizado, com informações completas e engajamento ativo',
+                        'IMPACTO NO NEGÓCIO: Google responde por 92% das buscas locais no Brasil. Um perfil otimizado gera em média 30-50% mais ligações telefônicas e visitas'
+                    ]
+                },
+                {
+                    title: '2. ANÁLISE DE OUTRAS PLATAFORMAS',
+                    items: [
+                        'Apple Maps (NÃO VERIFICADO): Pontuação 68/100. Perfil ativo com informações básicas. Alcance: 30% usuários mobile (iOS)',
+                        'Waze (VERIFICADO): Pontuação 72/100. Localização verificada com 89 relatórios. Alcance: 25M usuários/mês',
+                        'Uber: AUSENTE. Oportunidade de alcançar 22 milhões de usuários mensais',
+                        'TripAdvisor (VERIFICADO): Pontuação 78/100. 157 avaliações (4.5⭐). Líder em reviews turismo/gastronomia'
+                    ]
+                }
+            ];
+
+            sections.forEach(section => {
+                // Add new page if needed
+                if (yPos > pageHeight - 60) {
+                    doc.addPage();
+                    yPos = margin;
+                }
+
+                // Section header
+                doc.setFillColor(41, 128, 185);
+                doc.rect(margin, yPos - 5, maxWidth, 10, 'F');
+
+                doc.setFontSize(12);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(255, 255, 255);
+                doc.text(section.title, margin + 3, yPos);
+                yPos += 10;
+
+                doc.setTextColor(0, 0, 0);
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(10);
+
+                if (section.content) {
+                    const lines = doc.splitTextToSize(section.content, maxWidth);
+                    doc.text(lines, margin, yPos);
+                    yPos += (lines.length * 4) + 8;
+                }
+
+                if (section.items) {
+                    section.items.forEach((item, index) => {
+                        if (yPos > pageHeight - 30) {
+                            doc.addPage();
+                            yPos = margin;
+                        }
+                        const bullet = `${index + 1}.`;
+                        const lines = doc.splitTextToSize(item, maxWidth - 10);
+                        doc.text(bullet, margin + 2, yPos);
+                        doc.text(lines, margin + 8, yPos);
+                        yPos += (lines.length * 4) + 3;
+                    });
+                }
+
+                yPos += 5;
+            });
+
+            // Footer
+            doc.setFontSize(8);
+            doc.setTextColor(128, 128, 128);
+            doc.text('Relatório gerado por GMN SmartLocal Auditor PRO', margin, pageHeight - 10);
+
+            doc.save('Relatorio_Presenca_Multiplataforma_MODELO.pdf');
+            showSuccess();
+        }
+
+        function generateComparisonPDF() {
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const margin = 20;
+            const maxWidth = pageWidth - (margin * 2);
+            let yPos = margin;
+
+            // Header
+            doc.setFillColor(231, 76, 60);
+            doc.rect(0, 0, pageWidth, 55, 'F');
+
+            doc.setFontSize(20);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(255, 255, 255);
+            doc.text('ANÁLISE COMPARATIVA COMPETITIVA', margin, 18);
+
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Padaria Pão Quente vs Panificadora Estrela', margin, 30);
+
+            doc.setFontSize(10);
+            doc.text('Relatório gerado em: 09 de outubro de 2025', margin, 42);
+
+            yPos = 65;
+
+            // Comparison boxes
+            doc.setFillColor(245, 245, 245);
+            doc.rect(margin, yPos, maxWidth / 2 - 5, 30, 'F');
+            doc.rect(margin + maxWidth / 2 + 5, yPos, maxWidth / 2 - 5, 30, 'F');
+
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('SUA EMPRESA', margin + 3, yPos + 8);
+            doc.text('LÍDER DO MERCADO', margin + maxWidth / 2 + 8, yPos + 8);
+
+            doc.setFontSize(24);
+            doc.setTextColor(41, 128, 185);
+            doc.text('62', margin + 20, yPos + 22);
+            doc.setTextColor(39, 174, 96);
+            doc.text('88', margin + maxWidth / 2 + 25, yPos + 22);
+
+            yPos += 35;
+
+            // Gap box
+            doc.setFillColor(243, 156, 18);
+            doc.rect(margin, yPos, maxWidth, 12, 'F');
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(255, 255, 255);
+            doc.text('GAP COMPETITIVO: 26 PONTOS', margin + 3, yPos + 8);
+
+            yPos += 20;
+
+            const sections = [
+                {
+                    title: 'RESUMO EXECUTIVO',
+                    content: 'A Padaria Pão Quente possui presença digital estabelecida mas subotimizada, com score de 62 pontos contra 88 do líder Panificadora Estrela (gap de 26 pontos). Este gap representa aproximadamente 25-35% menos captação de clientes via canais digitais. O principal problema crítico é a falta de verificação do perfil GMN, que sozinha reduz visibilidade em até 70%.'
+                },
+                {
+                    title: '1. ANÁLISE COMPARATIVA DO GMN',
+                    items: [
+                        'SUA EMPRESA: NÃO VERIFICADO | 4.2⭐ (87 avaliações) | 18 imagens | 1 post/semana',
+                        'LÍDER: VERIFICADO | 4.7⭐ (342 avaliações) | 67 imagens | 3 posts/semana',
+                        'GAP CRÍTICO DE VERIFICAÇÃO: Líder possui perfil verificado, ganhando até 70% mais visibilidade',
+                        'GAP DE AVALIAÇÕES: Líder tem 255 avaliações a mais. Volume é fator crítico de ranqueamento',
+                        'GAP DE CONTEÚDO VISUAL: Diferença de 49 imagens. Perfis com 40+ imagens recebem 50% mais solicitações de direção'
+                    ]
+                },
+                {
+                    title: '2. CRITÉRIOS DE ALTA PRIORIDADE',
+                    items: [
+                        'Verificação do Perfil: Gap 100 pontos | CRÍTICO - Ação imediata requerida',
+                        'Volume de Avaliações: Gap 40 pontos | Implementar estratégia agressiva de reviews',
+                        'Taxa de Resposta: Gap 53 pontos | Estabelecer processo sistemático (SLA 48h)',
+                        'Conteúdo Visual: Gap 45 pontos | Sessão fotográfica profissional urgente (30+ fotos)',
+                        'Frequência de Posts: Gap 67 pontos | Calendário editorial 2-3 posts/semana'
+                    ]
+                }
+            ];
+
+            sections.forEach(section => {
+                if (yPos > pageHeight - 60) {
+                    doc.addPage();
+                    yPos = margin;
+                }
+
+                doc.setFillColor(41, 128, 185);
+                doc.rect(margin, yPos - 5, maxWidth, 10, 'F');
+
+                doc.setFontSize(12);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(255, 255, 255);
+                doc.text(section.title, margin + 3, yPos);
+                yPos += 10;
+
+                doc.setTextColor(0, 0, 0);
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(10);
+
+                if (section.content) {
+                    const lines = doc.splitTextToSize(section.content, maxWidth);
+                    doc.text(lines, margin, yPos);
+                    yPos += (lines.length * 4) + 8;
+                }
+
+                if (section.items) {
+                    section.items.forEach((item, index) => {
+                        if (yPos > pageHeight - 30) {
+                            doc.addPage();
+                            yPos = margin;
+                        }
+                        const bullet = `${index + 1}.`;
+                        const lines = doc.splitTextToSize(item, maxWidth - 10);
+                        doc.text(bullet, margin + 2, yPos);
+                        doc.text(lines, margin + 8, yPos);
+                        yPos += (lines.length * 4) + 3;
+                    });
+                }
+
+                yPos += 5;
+            });
+
+            doc.setFontSize(8);
+            doc.setTextColor(128, 128, 128);
+            doc.text('Relatório gerado por GMN SmartLocal Auditor PRO', margin, pageHeight - 10);
+
+            doc.save('Relatorio_Analise_Comparativa_MODELO.pdf');
+            showSuccess();
+        }
+    </script>
+</body>
+</html>
