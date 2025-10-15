@@ -1,0 +1,37 @@
+name: Diagnose and Auto-Fix for Vercel Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch: {}
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repositório
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Rodar script de diagnóstico
+        run: |
+          python scripts/diagnose_and_fix.py
+
+      - name: Criar Pull Request (se branch auto-fix existir)
+        if: success()
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: auto-fix
+          title: "🤖 Auto-fix: Correção automática de estrutura"
+          body: |
+            Este PR foi criado automaticamente pelo workflow **diagnose.yml**.
+            Ele corrige problemas comuns (página inicial ausente, next.config.js, package.json etc.).
+
