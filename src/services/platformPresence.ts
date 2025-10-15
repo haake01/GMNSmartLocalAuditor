@@ -25,6 +25,7 @@ export interface MultiPlatformAnalysis {
 
 const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
+
 const PLATFORM_ANALYSIS_PROMPT = `
 Você é um especialista em presença digital multiplataforma.
 

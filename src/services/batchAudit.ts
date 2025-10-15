@@ -1,6 +1,7 @@
 import { CompanyInput } from '../utils/spreadsheetParser';
 
-const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
+const OPENAI_API_KEY =
+  process.env.VITE_OPENAI_API_KEY || import.meta.env.VITE_OPENAI_API_KEY;
 
 export interface RealCompanyAudit {
   company_name: string;
